@@ -1,0 +1,40 @@
+html
+  head
+    title Questions and Answers
+    link(rel="stylesheet" href="/styles/home.css")
+
+  body
+    header
+      h1 Questions and Answers
+      if user
+        a.lien(href="/register/logout") Logout
+      else
+        a.lien(href="/user/login") Login
+        a.lien(href="/user/register") Register
+    main
+      if user
+        section.question-form
+          form(action="/question/add_question", method="POST")
+            label(for="question") Your Question 
+            input(type="text", name="question", placeholder="Ask something...")
+            input(type="hidden", name="user_id", value=`${user._id}`)
+            button(type="submit") Ask
+
+        if question
+          each q in question
+            section.question-list
+              p.created-by  #{moment(q.createdAt).subtract(10, 'days').calendar()}  by #{q.user_id.email} 
+              h3 #{q.question}
+              a(href=`/reponse/${q._id}`) Reponses
+      else 
+        if question
+          each q in question
+            
+            section.question-list
+              if q.user_id
+                p.created-by  #{moment(q.createdAt).subtract(10, 'days').calendar()}  by #{q.user_id.email} 
+              else
+                p.created-by created by Unknown User
+              h3 #{q.question}
+              
+              a(href=`/reponse/${q._id}`) Reponses
