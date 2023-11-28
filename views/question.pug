@@ -22,10 +22,10 @@ html
         section.question-form
           form(action="/reponse/addReponse", method="POST")
             .form-group
-              label(for="question") Your Response about:
+              label(for="question") Your Response:
               input(type="text", class="form-control", name="reponse", placeholder="Write something...")
-            input(type="hidden", name="user_id", value=`${user._id}`)
-            input(type="hidden", name="question_id", value=`${question._id}`)
+              input(type="hidden", name="user_id", value=`${user._id}`)
+              input(type="hidden", name="question_id", value=`${question._id}`)
             button(type="submit", class="btn btn-primary mt-2") Send
     
         if reponse
