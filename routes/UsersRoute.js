@@ -15,4 +15,3 @@ routerUser.post("/login",auththentification.auth,userController.post_login)
 routerUser.post("/register",userController.addUser);
 
 module.exports = routerUser;
-
