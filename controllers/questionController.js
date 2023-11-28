@@ -9,7 +9,7 @@ const Ajouter_question = (req, res) => {
         .then(async (result) => {
             console.log("created question")
             try {
-                const question= await Question.find().populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
+                const question= await Question.find().sort({ createdAt: -1 }).populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
                 res.render("home", { question :question , user: req.session.user, moment: moment });
             } catch (err) {
                 console.log(err);

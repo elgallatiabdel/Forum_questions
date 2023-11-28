@@ -5,6 +5,10 @@ const moment = require("moment")
 
 const addUser = async (req, res) => {
     try {
+        const user_existe = await user.findOne({ email: req.body.email})
+        if(user_existe) {
+            res.render("register", { error: "L'email existe déja" });
+        }
         if (req.body.password === req.body.confirmpassword) {
             // Hasher le mot de passe
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -22,7 +26,7 @@ const addUser = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erreur lors de la création de l'utilisateur");
+        res.render("register", { error: "Erreur lors de la création de l'utilisateur" });
 }}
 
 const get_login = (req,res)=>{
@@ -36,7 +40,7 @@ const get_register = (req,res)=>{
 const get_home = async (req,res)=>{
     if(req.session.user) {
         try {
-            const question= await Question.find().populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
+            const question= await Question.find().sort({ createdAt: -1 }).populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
             res.render("home", { question :question , user: req.session.user, moment : moment  });
         } catch (err) {
             console.log(err);
@@ -44,19 +48,18 @@ const get_home = async (req,res)=>{
     }
     else {
         try {
-            const question= await Question.find().populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
+            const question= await Question.find().sort({ createdAt: -1 }).populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
             res.render("home", { question :question, moment: moment });
         } catch (err) {
             console.log(err);
         } 
     }
-    
 }
 
 const get_logout = async (req, res) => {
     req.session.destroy();
     try {
-        const question= await Question.find().populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
+        const question= await Question.find().sort({ createdAt: -1 }).populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
         res.render("home", { question :question , moment : moment  });
     } catch (err) {
         console.log(err);
@@ -66,11 +69,10 @@ const get_logout = async (req, res) => {
 
 const post_login = async (req, res) => {
     try {
-        const question= await Question.find().populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
+        const question= await Question.find().sort({ createdAt: -1 }).populate('user_id'); // Utilisez populate pour obtenir les détails de l'utilisateur
         res.render("home", { question :question , user: req.session.user, moment: moment });
     } catch (err) {
         console.log(err);
-       
     }
 };
 

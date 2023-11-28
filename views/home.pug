@@ -1,40 +1,42 @@
 html
   head
     title Questions and Answers
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
     link(rel="stylesheet" href="/styles/home.css")
 
   body
-    header
-      h1 Questions and Answers
+    header.container-fluid
+      h1.text-center Questions and Answers
       if user
-        a.lien(href="/register/logout") Logout
+        a.btn.btn-danger(href="/user/logout") Logout
       else
-        a.lien(href="/user/login") Login
-        a.lien(href="/user/register") Register
-    main
+        a.btn.btn-primary.m-3(href="/user/login") Login
+        a.btn.btn-success(href="/user/register") Register
+
+    main.container
       if user
         section.question-form
           form(action="/question/add_question", method="POST")
-            label(for="question") Your Question 
-            input(type="text", name="question", placeholder="Ask something...")
-            input(type="hidden", name="user_id", value=`${user._id}`)
-            button(type="submit") Ask
+            .form-group
+              label(for="question") Your Question
+              input.form-control(type="text", name="question", placeholder="Ask something...")
+              input(type="hidden", name="user_id", value=`${user._id}`)
+            button.btn.btn-primary(type="submit") Ask
 
         if question
           each q in question
-            section.question-list
-              p.created-by  #{moment(q.createdAt).subtract(10, 'days').calendar()}  by #{q.user_id.email} 
-              h3 #{q.question}
-              a(href=`/reponse/${q._id}`) Reponses
-      else 
+            section.question-list.card
+              .card-header
+                p.created-by.small.text-muted #{moment(q.createdAt).subtract(10, 'days').calendar()} by #{q.user_id ? q.user_id.email : 'Unknown User'}
+              .card-body
+                h3.card-title #{q.question}
+                a.btn.btn-secondary(href=`/reponse/${q._id}`) Reponses
+      else
         if question
           each q in question
-            
-            section.question-list
-              if q.user_id
-                p.created-by  #{moment(q.createdAt).subtract(10, 'days').calendar()}  by #{q.user_id.email} 
-              else
-                p.created-by created by Unknown User
-              h3 #{q.question}
-              
-              a(href=`/reponse/${q._id}`) Reponses
+            section.question-list.card
+              .card-header
+                p.created-by.small.text-muted #{moment(q.createdAt).subtract(10, 'days').calendar()} by #{q.user_id ? q.user_id.email : 'Unknown User'}
+              .card-body
+                h3.card-title #{q.question}
+                a.btn.btn-secondary(href=`/reponse/${q._id}`) Reponses

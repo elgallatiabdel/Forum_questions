@@ -1,42 +1,50 @@
 html
   head
     title Reponses
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
     link(rel="stylesheet", href="/styles/question.css")
 
   body
-    header
-      h1 Reponses 
+    header.container-fluid
+      h1.text-center Reponses 
       if user
-        a.lien(href="/user/home") Home
-        a.lien(href="/user/logout") Logout
+        a.btn.btn-primary.m-3(href="/user/home") Home
+        a.btn.btn-danger(href="/user/logout") Logout
       else
-        a.lien(href="/user/home") Home
-        a.lien(href="/user/login") Login
-        a.lien(href="/user/register") Register
-    main
+        a.btn.btn-primary.m-3(href="/user/home") Home
+        a.btn.btn-success.m-3(href="/user/login") Login
+        a.btn.btn-secondary(href="/user/register") Register
+
+
+    main.container
       if user
-        h2 The Question: #{question.question}
+        h2.mt-4 The Question: #{question.question}
         section.question-form
           form(action="/reponse/addReponse", method="POST")
-            label(for="question") Your Response about:
-            input(type="text", name="reponse", placeholder="Write something...")
+            .form-group
+              label(for="question") Your Response about:
+              input(type="text", class="form-control", name="reponse", placeholder="Write something...")
             input(type="hidden", name="user_id", value=`${user._id}`)
             input(type="hidden", name="question_id", value=`${question._id}`)
-            button(type="submit") Send
+            button(type="submit", class="btn btn-primary mt-2") Send
     
         if reponse
           each r in reponse
             section.question-list 
-              p.created-by  #{moment(r.createdAt).subtract(10, 'days').calendar()} Response by #{r.user_id.email} 
-              h4 #{r.reponse}
+              .card-header
+                p.created-by.small.text-muted #{moment(r.createdAt).subtract(10, 'days').calendar()} Response by #{r.user_id.email} 
+              .card-body
+                h3.card-title #{r.reponse}
         else 
-          h2 Aucun réponse existe pour cette question
+          h2.text-muted Aucun réponse existe pour cette question
       else 
-        h2 The Question: #{question.question}
+        h2.mt-4 The Question: #{question.question}
         if reponse
           each r in reponse
-            section.question-list
-              p.created-by  #{moment(r.createdAt).subtract(10, 'days').calendar()} Response by #{r.user_id.email} 
-              h4 #{r.reponse}
+            section.question-list 
+              .card-header
+                p.created-by.small.text-muted #{moment(r.createdAt).subtract(10, 'days').calendar()} Response by #{r.user_id.email} 
+              .card-body
+                h3.card-title #{r.reponse}
         else 
-          h2 Aucun réponse existe pour cette question
+          h2.text-muted Aucun réponse existe pour cette question

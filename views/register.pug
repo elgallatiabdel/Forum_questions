@@ -1,26 +1,39 @@
 html
   head
     title Registration Form
-    link(rel="stylesheet" href="/styles/register.css")
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/styles/register.css")
 
   body
-    div.form-container
-      h2 Registration Form
-      form(action="/user/register", method="POST")
-        label(for="username") Username
-        input(type="text", id="username", name="username", required)
+    .container
+      .row.justify-content-center
+        .col-md-6.form-container
+          h2.text-center Registration Form
+          form(action="/user/register", method="POST")
+            if error
+              .alert.alert-danger #{error}
 
-        label(for="email") Email
-        input(type="email", id="email", name="email", required)
+            .form-group
+              label(for="username") Username
+              input(type="text", id="username", name="username", class="form-control", required)
 
-        label(for="password") Password
-        input(type="password", id="password", name="password", required)
+            .form-group
+              label(for="email") Email
+              input(type="email", id="email", name="email", class="form-control", required)
 
-        label(for="confirm-password") Confirm Password
-        input(type="password", id="confirm-password", name="confirmpassword", required)
+            .form-group
+              label(for="password") Password
+              input(type="password", id="password", name="password", class="form-control", required)
 
-        input(type="submit", value="ajouter")
+            .form-group
+              label(for="confirm-password") Confirm Password
+              input(type="password", id="confirm-password", name="confirmpassword", class="form-control", required)
 
-      p Already have an account?
-        a(href="/user/login") Login here
-      
+            button.btn.btn-primary(type="submit") Ajouter
+
+          p.text-center Already have an account?
+            a(href="/user/login") Login here
+          hr
+          p.text-center
+            a(href="/") Home
+

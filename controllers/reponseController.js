@@ -8,7 +8,7 @@ const get_reponses = async(req,res)=>{
 
         // Utilisez populate pour obtenir les détails de l'utilisateur et des réponses
         const question = await Question.findById(questionId).populate('user_id');
-        const reponse = await REP.find({ question_id: questionId }).populate('user_id');
+        const reponse = await REP.find({ question_id: questionId }).sort({ createdAt: -1 }).populate('user_id');
 
         res.render("question", { question, reponse, user: req.session.user,moment:moment });
     } catch (err) {
@@ -26,7 +26,7 @@ const add_reponses = (req,res)=>{
             const questionId = result.question_id;
             // Utilisez populate pour obtenir les détails de l'utilisateur et des réponses
             const question = await Question.findById(questionId).populate('user_id');
-            const reponse = await REP.find({ question_id: questionId }).populate('user_id');
+            const reponse = await REP.find({ question_id: questionId }).sort({ createdAt: -1 }).populate('user_id');
     
             res.render("question", { question, reponse, user: req.session.user,moment:moment });
         } catch (err) {

@@ -16,9 +16,11 @@ async function auth(req, res,next) {
                 next();
             } else {
                 console.log("Erreur d'authentification");
+                res.render("login", { error: "Le mot de passe est incorrect" });
             }
         } else {
             console.log("Utilisateur non trouvé");
+            res.render("login", { error: "Utilisateur non trouvé" });
         }
     } catch (error) {
         console.log(error)

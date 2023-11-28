@@ -1,18 +1,35 @@
-doctype html
 html
   head
-    title Login Page
-    link(rel='stylesheet', href='/styles/login.css')
+    title Login Form
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/styles/login.css")
+
   body
     .container
-      form(action='/user/Login', method='POST')
-        h2 Login
-        label(for='email') Email:
-        input(type='email', id='email', name='email', required)
-        
-        label(for='password') Password:
-        input(type='password', id='password', name='password', required)
-        
-        input(type="submit", value="login")
-      p Don't have an account? 
-        a(href='/user/register') Register here
+      .row.justify-content-center
+        .col-md-6.form-container
+          h2.text-center Login Form
+          form(action="/user/Login", method="POST")
+
+            if error
+              .alert.alert-danger #{error}
+                  
+            .form-group
+              label(for="email") Email
+              input(type="email", id="email", name="email", class="form-control", required)
+
+            .form-group
+              label(for="password") Password
+              input(type="password", id="password", name="password", class="form-control", required)
+
+            button.btn.btn-primary(type="submit") Ajouter
+
+
+          
+          p.text-center  Don't have an account?
+            a(href="/user/register") Register here
+          hr
+          p.text-center
+            a(href="/") Home
+          
+            
